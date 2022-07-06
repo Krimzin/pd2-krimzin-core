@@ -2,7 +2,7 @@
 	"name": "Krimzin Core",
 	"description": "A library for PAYDAY 2 mods.",
 	"author": "Krimzin",
-	"contact": "",
+	"contact": "https://github.com/Krimzin/pd2-krimzin-core",
 	"version": "1.0.0",
 	"pre_hooks": [
 		{
