@@ -70,7 +70,7 @@ function ButtonList:set_move_up(state)
 end
 
 function ButtonList:set_move_down(state)
-	self._move_up = state
+	self._move_down = state
 
 	if state then
 		self._move_time = 0
