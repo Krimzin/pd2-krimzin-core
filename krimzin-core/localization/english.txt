@@ -1,0 +1,4 @@
+{
+	"KrimzinCore.confirm": "Confirm",
+	"KrimzinCore.cancel": "Cancel"
+}

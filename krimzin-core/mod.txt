@@ -1,0 +1,19 @@
+{
+	"name": "Krimzin Core",
+	"description": "A library for PAYDAY 2 mods.",
+	"author": "Krimzin",
+	"contact": "",
+	"version": "1.0.0",
+	"pre_hooks": [
+		{
+			"hook_id": "lib/entry",
+			"script_path": "lua/hooks/pre/Entry.lua"
+		}
+	],
+	"hooks": [
+		{
+			"hook_id": "lib/managers/localizationmanager",
+			"script_path": "lua/hooks/post/LocalizationManager.lua"
+		}
+	]
+}
