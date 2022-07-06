@@ -122,11 +122,11 @@ end
 function TextInputDialog:_new_button_configs()
 	return {
 		{
-			text_str = managers.localization:to_upper_text("krimzin_core_confirm"),
+			text_str = managers.localization:to_upper_text("KrimzinCore.confirm"),
 			on_press = function () self:confirm() end
 		},
 		{
-			text_str = managers.localization:to_upper_text("krimzin_core_cancel"),
+			text_str = managers.localization:to_upper_text("KrimzinCore.cancel"),
 			on_press = function () self:fade_out_close() end,
 			is_selected = true
 		}
@@ -227,9 +227,9 @@ function TextInputDialog:_new_mouse_params()
 end
 
 function TextInputDialog:_bind_events()
+	self._main_panel:enter_text(function (panel, str) self._text_input:text_entered(str) end)
 	self._main_panel:key_press(function (panel, key) self._text_input:key_pressed(key) end)
 	self._main_panel:key_release(function (panel, key) self._text_input:key_released(key) end)
-	self._main_panel:enter_text(function (panel, str) self._text_input:text_entered(str) end)
 
 	self._controller:add_trigger("menu_up", function () self._button_list:set_move_up(true) end)
 	self._controller:add_release_trigger("menu_up", function () self._button_list:set_move_up(false) end)
