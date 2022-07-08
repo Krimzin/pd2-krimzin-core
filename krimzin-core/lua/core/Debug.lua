@@ -1,6 +1,6 @@
 setfenv(1, KrimzinCore)
 
-Inspect = {}
+Debug = {}
 
 local function get_member_names(class)
 	local pub_var = {}
@@ -45,7 +45,7 @@ local function add_member_names(names, output)
 	end
 end
 
-function Inspect.format_member_names(class)
+function Debug.format_member_names(class)
 	local pub_var, pub_fun, pri_var, pri_fun = get_member_names(class)
 	local output = {}
 
