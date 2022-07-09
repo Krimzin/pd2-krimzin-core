@@ -89,13 +89,13 @@ end
 
 function TextInput:_update_caret()
 	local s, e = self._input_text:selection()
-	local x = 0
+	local x, y = 0, 0
 
 	if (s == 0) and (e == 0) then
-		x = self._input_text:world_x()
+		x, y = self._input_text:world_position()
 	else
-		x = self._input_text:selection_rect()
+		x, y = self._input_text:selection_rect()
 	end
 
-	self._caret_rect:set_world_x(x)
+	self._caret_rect:set_world_position(x, y)
 end
