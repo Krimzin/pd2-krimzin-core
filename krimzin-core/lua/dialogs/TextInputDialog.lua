@@ -43,15 +43,6 @@ function TextInputDialog:update(t, dt)
 	self._button_list:update(t, dt)
 end
 
-function TextInputDialog:mouse_moved(x, y)
-	local in_use, cursor_type = self._button_list:mouse_moved(x, y)
-	managers.mouse_pointer:set_pointer_image(in_use and cursor_type or "arrow")
-end
-
-function TextInputDialog:mouse_pressed(button, x, y)
-	self._button_list:mouse_pressed(button, x, y)
-end
-
 function TextInputDialog:confirm()
 	self._on_confirm(self._text_input:input_str())
 	self:fade_out_close()
@@ -76,15 +67,6 @@ function TextInputDialog:_new_title_text(parent_panel, title_str)
 	title_text:set_size(text_w, text_h)
 
 	return title_text
-end
-
-function TextInputDialog._blink(panel)
-	while true do
-		panel:hide()
-		wait(0.3)
-		panel:show()
-		wait(0.3)
-	end
 end
 
 function TextInputDialog:_new_text_input(parent_panel, placeholder_str)
@@ -117,6 +99,15 @@ function TextInputDialog:_new_text_input(parent_panel, placeholder_str)
 	caret_rect:animate(self._blink)
 
 	return TextInput:new(main_panel, placeholder_text, input_text, caret_rect, max_letters)
+end
+
+function TextInputDialog._blink(panel)
+	while true do
+		panel:hide()
+		wait(0.3)
+		panel:show()
+		wait(0.3)
+	end
 end
 
 function TextInputDialog:_new_button_configs()
@@ -221,9 +212,18 @@ end
 function TextInputDialog:_new_mouse_params()
 	return {
 		id = managers.mouse_pointer:get_id(),
-		mouse_move = function (panel, x, y) self:mouse_moved(x, y) end,
-		mouse_press = function (panel, button, x, y) self:mouse_pressed(button, x, y) end
+		mouse_move = function (panel, x, y) self:_mouse_moved(x, y) end,
+		mouse_press = function (panel, button, x, y) self:_mouse_pressed(button, x, y) end
 	}
+end
+
+function TextInputDialog:_mouse_moved(x, y)
+	local in_use, cursor_type = self._button_list:mouse_moved(x, y)
+	managers.mouse_pointer:set_pointer_image(in_use and cursor_type or "arrow")
+end
+
+function TextInputDialog:_mouse_pressed(button, x, y)
+	self._button_list:mouse_pressed(button, x, y)
 end
 
 function TextInputDialog:_bind_events()
