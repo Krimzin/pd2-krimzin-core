@@ -40,8 +40,7 @@ local function add_member_names(names, output)
 	table.sort(names)
 
 	for i = 1, #names do
-		output[#output + 1] = "\n\t\t"
-		output[#output + 1] = names[i]
+		output[#output + 1] = "\t\t" .. names[i]
 	end
 end
 
@@ -50,32 +49,32 @@ function Debug.format_member_names(class)
 	local output = {}
 
 	if pub_var[1] or pub_fun[1] then
-		output[#output + 1] = "\nPUBLIC:"
+		output[#output + 1] = "PUBLIC:"
 
 		if pub_var[1] then
-			output[#output + 1] = "\n\tVARIABLES:"
+			output[#output + 1] = "\tVARIABLES:"
 			add_member_names(pub_var, output)
 		end
 
 		if pub_fun[1] then
-			output[#output + 1] = "\n\tFUNCTIONS:"
+			output[#output + 1] = "\tFUNCTIONS:"
 			add_member_names(pub_fun, output)
 		end
 	end
 
 	if pri_var[1] or pri_fun[1] then
-		output[#output + 1] = "\nPRIVATE:"
+		output[#output + 1] = "PRIVATE:"
 
 		if pri_var[1] then
-			output[#output + 1] = "\n\tVARIABLES:"
+			output[#output + 1] = "\tVARIABLES:"
 			add_member_names(pri_var, output)
 		end
 
 		if pri_fun[1] then
-			output[#output + 1] = "\n\tFUNCTIONS:"
+			output[#output + 1] = "\tFUNCTIONS:"
 			add_member_names(pri_fun, output)
 		end
 	end
 
-	return table.concat(output)
+	return table.concat(output, "\n")
 end
