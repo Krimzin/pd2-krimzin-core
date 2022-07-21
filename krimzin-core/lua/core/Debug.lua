@@ -2,6 +2,59 @@ setfenv(1, KrimzinCore)
 
 Debug = {}
 
+local function format_value(value, output) 
+	if type(value) == "string" then
+		output[#output + 1] = '"'
+		output[#output + 1] = value
+		output[#output + 1] = '"'
+	else
+		output[#output + 1] = tostring(value)
+	end
+end
+
+local function format_table(tbl, output, has, tabs)
+	has[tbl] = true
+	output[#output + 1] = tostring(tbl)
+
+	if next(tbl) then
+		output[#output + 1] = " {\n"
+		local next_tabs = tabs .. "\t"
+
+		for k, v in pairs(tbl) do
+			output[#output + 1] = next_tabs
+			format_value(k, output)
+			output[#output + 1] = " = "
+
+			if not has[v] and (type(v) == "table") then
+				format_table(v, output, has, next_tabs)
+			else
+				format_value(v, output)
+			end
+
+			output[#output + 1] = "\n"
+		end
+
+		output[#output + 1] = tabs
+		output[#output + 1] = "}"
+	else
+		output[#output + 1] = " {}"
+	end
+end
+
+function Debug.format(value)
+	local output = {}
+
+	if type(value) == "table" then
+		local has = {}
+		local tabs = ""
+		format_table(value, output, has, tabs)
+	else
+		format_value(value, output)
+	end
+
+	return table.concat(output)
+end
+
 local function get_member_names(class)
 	local pub_var = {}
 	local pub_fun = {}
