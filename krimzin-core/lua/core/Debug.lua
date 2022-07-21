@@ -25,7 +25,7 @@ local function format_table(tbl, output, has, tabs)
 			format_value(k, output)
 			output[#output + 1] = " = "
 
-			if not has[v] and (type(v) == "table") then
+			if (type(v) == "table") and not has[v] then
 				format_table(v, output, has, next_tabs)
 			else
 				format_value(v, output)
