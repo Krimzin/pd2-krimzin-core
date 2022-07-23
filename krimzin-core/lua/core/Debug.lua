@@ -2,7 +2,7 @@ setfenv(1, KrimzinCore)
 
 Debug = {}
 
-local function format_value(value, output) 
+local function value_output(value, output) 
 	if type(value) == "string" then
 		output[#output + 1] = '"'
 		output[#output + 1] = value
@@ -12,7 +12,7 @@ local function format_value(value, output)
 	end
 end
 
-local function format_table(tbl, output, has, tabs)
+local function table_output(tbl, output, has, tabs)
 	has[tbl] = true
 	output[#output + 1] = tostring(tbl)
 
@@ -22,13 +22,13 @@ local function format_table(tbl, output, has, tabs)
 
 		for k, v in pairs(tbl) do
 			output[#output + 1] = next_tabs
-			format_value(k, output)
+			value_output(k, output)
 			output[#output + 1] = " = "
 
 			if (type(v) == "table") and not has[v] then
-				format_table(v, output, has, next_tabs)
+				table_output(v, output, has, next_tabs)
 			else
-				format_value(v, output)
+				value_output(v, output)
 			end
 
 			output[#output + 1] = "\n"
@@ -41,15 +41,15 @@ local function format_table(tbl, output, has, tabs)
 	end
 end
 
-function Debug.format(value)
+function Debug.to_string(value)
 	local output = {}
 
 	if type(value) == "table" then
 		local has = {}
 		local tabs = ""
-		format_table(value, output, has, tabs)
+		table_output(value, output, has, tabs)
 	else
-		format_value(value, output)
+		value_output(value, output)
 	end
 
 	return table.concat(output)
