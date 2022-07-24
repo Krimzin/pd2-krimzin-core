@@ -12,7 +12,7 @@ local function value_output(value, output)
 	end
 end
 
-local function table_output(tbl, output, has, tabs)
+local function table_output(tbl, output, has, tabs, depth, max_depth)
 	has[tbl] = true
 	output[#output + 1] = tostring(tbl)
 
@@ -25,7 +25,7 @@ local function table_output(tbl, output, has, tabs)
 			value_output(k, output)
 			output[#output + 1] = " = "
 
-			if (type(v) == "table") and not has[v] then
+			if (type(v) == "table") and not has[v] and (depth < max_depth) then
 				table_output(v, output, has, next_tabs)
 			else
 				value_output(v, output)
@@ -41,13 +41,15 @@ local function table_output(tbl, output, has, tabs)
 	end
 end
 
-function Debug.to_string(value)
+function Debug.to_string(value, max_depth)
 	local output = {}
 
 	if type(value) == "table" then
 		local has = {}
 		local tabs = ""
-		table_output(value, output, has, tabs)
+		local depth = 0
+		max_depth = max_depth or 1
+		table_output(value, output, has, tabs, depth, max_depth)
 	else
 		value_output(value, output)
 	end
