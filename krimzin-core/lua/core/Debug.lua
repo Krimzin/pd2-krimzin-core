@@ -19,6 +19,7 @@ local function table_output(tbl, output, has, tabs, depth, max_depth)
 	if next(tbl) then
 		output[#output + 1] = " {\n"
 		local next_tabs = tabs .. "\t"
+		depth = depth + 1
 
 		for k, v in pairs(tbl) do
 			output[#output + 1] = next_tabs
