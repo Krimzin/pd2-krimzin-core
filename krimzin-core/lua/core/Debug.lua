@@ -2,6 +2,16 @@ setfenv(1, KrimzinCore)
 
 Debug = {}
 
+function Debug.log(...)
+	local t = table.pack(...)
+
+	for i = 1, t.n do
+		t[i] = tostring(t[i])
+	end
+
+	log(table.unpack(t))
+end
+
 local function make_value_output(value, output) 
 	if type(value) == "string" then
 		output[#output + 1] = '"'
