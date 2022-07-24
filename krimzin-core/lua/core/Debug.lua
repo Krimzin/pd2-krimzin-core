@@ -26,7 +26,7 @@ local function table_output(tbl, output, has, tabs, depth, max_depth)
 			output[#output + 1] = " = "
 
 			if (type(v) == "table") and not has[v] and (depth < max_depth) then
-				table_output(v, output, has, next_tabs)
+				table_output(v, output, has, next_tabs, depth, max_depth)
 			else
 				value_output(v, output)
 			end
