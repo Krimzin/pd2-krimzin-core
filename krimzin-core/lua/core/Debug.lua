@@ -2,7 +2,7 @@ setfenv(1, KrimzinCore)
 
 Debug = {}
 
-local function value_output(value, output) 
+local function make_value_output(value, output) 
 	if type(value) == "string" then
 		output[#output + 1] = '"'
 		output[#output + 1] = value
@@ -12,7 +12,7 @@ local function value_output(value, output)
 	end
 end
 
-local function table_output(tbl, output, has, tabs, depth, max_depth)
+local function make_table_output(tbl, output, has, tabs, depth, max_depth)
 	has[tbl] = true
 	output[#output + 1] = tostring(tbl)
 
@@ -23,13 +23,13 @@ local function table_output(tbl, output, has, tabs, depth, max_depth)
 
 		for k, v in pairs(tbl) do
 			output[#output + 1] = next_tabs
-			value_output(k, output)
+			make_value_output(k, output)
 			output[#output + 1] = " = "
 
 			if (type(v) == "table") and not has[v] and (depth < max_depth) then
-				table_output(v, output, has, next_tabs, depth, max_depth)
+				make_table_output(v, output, has, next_tabs, depth, max_depth)
 			else
-				value_output(v, output)
+				make_value_output(v, output)
 			end
 
 			output[#output + 1] = "\n"
@@ -50,9 +50,9 @@ function Debug.to_string(value, max_depth)
 		local tabs = ""
 		local depth = 0
 		max_depth = max_depth or 1
-		table_output(value, output, has, tabs, depth, max_depth)
+		make_table_output(value, output, has, tabs, depth, max_depth)
 	else
-		value_output(value, output)
+		make_value_output(value, output)
 	end
 
 	return table.concat(output)
