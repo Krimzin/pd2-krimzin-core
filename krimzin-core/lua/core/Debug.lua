@@ -9,7 +9,7 @@ function Debug.log(...)
 		args[i] = tostring(args[i])
 	end
 
-	log(table.unpack(args))
+	log(unpack(args))
 end
 
 local function make_value_output(value, output) 
