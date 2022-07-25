@@ -3,13 +3,13 @@ setfenv(1, KrimzinCore)
 Debug = {}
 
 function Debug.log(...)
-	local t = table.pack(...)
+	local args = table.pack(...)
 
-	for i = 1, t.n do
-		t[i] = tostring(t[i])
+	for i = 1, args.n do
+		args[i] = tostring(args[i])
 	end
 
-	log(table.unpack(t))
+	log(table.unpack(args))
 end
 
 local function make_value_output(value, output) 
