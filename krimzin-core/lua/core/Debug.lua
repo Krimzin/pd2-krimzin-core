@@ -23,30 +23,37 @@ local function make_value_output(value, output)
 end
 
 local function make_table_output(tbl, output, has, tabs, depth, max_depth)
-	has[tbl] = true
 	output[#output + 1] = tostring(tbl)
 
+	if has[tbl] then return end
+
+	has[tbl] = true
+	
 	if next(tbl) then
-		output[#output + 1] = " {\n"
-		local next_tabs = tabs .. "\t"
-		depth = depth + 1
+		if depth < max_depth then
+			output[#output + 1] = " {\n"
+			local next_tabs = tabs .. "\t"
+			depth = depth + 1
 
-		for k, v in pairs(tbl) do
-			output[#output + 1] = next_tabs
-			make_value_output(k, output)
-			output[#output + 1] = " = "
-
-			if (type(v) == "table") and not has[v] and (depth < max_depth) then
-				make_table_output(v, output, has, next_tabs, depth, max_depth)
-			else
-				make_value_output(v, output)
+			for k, v in pairs(tbl) do
+				output[#output + 1] = next_tabs
+				make_value_output(k, output)
+				output[#output + 1] = " = "
+	
+				if type(v) == "table" then
+					make_table_output(v, output, has, next_tabs, depth, max_depth)
+				else
+					make_value_output(v, output)
+				end
+	
+				output[#output + 1] = "\n"
 			end
 
-			output[#output + 1] = "\n"
+			output[#output + 1] = tabs
+			output[#output + 1] = "}"
+		else
+			output[#output + 1] = " {...}"
 		end
-
-		output[#output + 1] = tabs
-		output[#output + 1] = "}"
 	else
 		output[#output + 1] = " {}"
 	end
