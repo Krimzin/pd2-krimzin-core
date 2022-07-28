@@ -66,7 +66,7 @@ function Debug.to_string(value, max_depth)
 		local has = {}
 		local tabs = ""
 		local depth = 0
-		max_depth = max_depth or 1
+		max_depth = max_depth or 0
 		make_table_output(value, output, has, tabs, depth, max_depth)
 	else
 		make_value_output(value, output)
