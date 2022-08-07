@@ -12,7 +12,7 @@ function Debug.log(...)
 	log(unpack(args))
 end
 
-local function make_value_output(value, output) 
+local function add_value_output(value, output) 
 	if type(value) == "string" then
 		output[#output + 1] = '"'
 		output[#output + 1] = value
@@ -22,7 +22,7 @@ local function make_value_output(value, output)
 	end
 end
 
-local function make_table_output(tbl, output, has, tabs, depth, max_depth)
+local function add_table_output(tbl, output, has, tabs, depth, max_depth)
 	output[#output + 1] = tostring(tbl)
 
 	if has[tbl] then return end
@@ -37,13 +37,13 @@ local function make_table_output(tbl, output, has, tabs, depth, max_depth)
 
 			for k, v in pairs(tbl) do
 				output[#output + 1] = next_tabs
-				make_value_output(k, output)
+				add_value_output(k, output)
 				output[#output + 1] = " = "
 	
 				if type(v) == "table" then
-					make_table_output(v, output, has, next_tabs, depth, max_depth)
+					add_table_output(v, output, has, next_tabs, depth, max_depth)
 				else
-					make_value_output(v, output)
+					add_value_output(v, output)
 				end
 	
 				output[#output + 1] = "\n"
@@ -67,9 +67,9 @@ function Debug.to_string(value, max_depth)
 		local tabs = ""
 		local depth = 0
 		max_depth = max_depth or 0
-		make_table_output(value, output, has, tabs, depth, max_depth)
+		add_table_output(value, output, has, tabs, depth, max_depth)
 	else
-		make_value_output(value, output)
+		add_value_output(value, output)
 	end
 
 	return table.concat(output)
